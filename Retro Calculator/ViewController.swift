@@ -54,6 +54,9 @@ class ViewController: UIViewController {
         processOperation(Operation.Divide)
     }
 
+    @IBAction func onAddPressed(sender: AnyObject) {
+        processOperation(Operation.Addition)
+    }
     @IBAction func onMultiplyPressed(sender: AnyObject) {
         processOperation(Operation.Multiply)
     }
@@ -64,12 +67,20 @@ class ViewController: UIViewController {
     
     
    
-    @IBAction func onAddPressed(sender: AnyObject) {
-        processOperation(Operation.Addition)
-        
-    }
+    
     @IBAction func onEqualPressed(sender: AnyObject) {
         processOperation(currentOperation)
+    }
+    @IBAction func onClearPressed(sender: AnyObject) {
+        outputLabel.text = "0"
+            if leftVar != "" && rightVar != ""
+            {
+                leftVar = "0"
+                rightVar = "0"
+                result = ""
+                runningNumber = ""
+        }
+        
     }
     
     func processOperation(op:Operation)
