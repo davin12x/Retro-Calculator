@@ -16,10 +16,10 @@ class ViewController: UIViewController {
         case Multiply = "*"
         case Addition = "+"
         case Substract = "-"
-        case Empty = " "
-        case Equal = "="
+        case Empty = ""
         
     }
+    var result = ""
     var runningNumber = ""
     var leftVar = ""
     var rightVar = ""
@@ -62,17 +62,56 @@ class ViewController: UIViewController {
         processOperation(Operation.Substract)
     }
     
-    @IBAction func AddPressed(sender: AnyObject) {
-        processOperation(Operation.Addition)
-    }
+    
    
+    @IBAction func onAddPressed(sender: AnyObject) {
+        processOperation(Operation.Addition)
+        
+    }
     @IBAction func onEqualPressed(sender: AnyObject) {
-        processOperation(Operation.Equal)
+        processOperation(currentOperation)
     }
     
     func processOperation(op:Operation)
     {
         playSound()
+        if currentOperation != Operation.Empty
+        {
+           
+            //A user selected an operator then selected another number without
+            //first entering a number
+            if runningNumber != ""{
+                rightVar = runningNumber
+                runningNumber = ""
+                
+                if currentOperation == Operation.Multiply
+                {
+                    result = "\(Double(leftVar)! * Double(rightVar)!)"
+                }
+                else if currentOperation == Operation.Divide
+                {
+                    result = "\(Double(leftVar)! / Double(rightVar)!)"
+                }
+                else if currentOperation == Operation.Addition
+                {
+                    result = "\(Double(leftVar)! + Double(rightVar)!)"
+                }
+                else if currentOperation == Operation.Substract
+                {
+                    result = "\(Double(leftVar)! - Double(rightVar)!)"
+                }
+                leftVar = result
+                outputLabel.text = result
+            }
+            currentOperation = op
+        }
+        else
+        {
+            //This is the first operator has been pressed
+            leftVar = runningNumber
+            runningNumber = ""
+            currentOperation = op
+        }
     }
     
     func playSound(){
@@ -80,7 +119,6 @@ class ViewController: UIViewController {
             btnSound.stop()
         }
         btnSound.play()
-    
     }
 }
 
